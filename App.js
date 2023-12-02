@@ -8,7 +8,9 @@ import { Cuenta, Perfil } from './pages/Perfil'
 import { Acercade } from './pages/Acercade'
 import { Register } from './pages/Register'
 import { PanelAdmin } from './pages/PanelAdmin';
-
+import { Buscar } from './pages/Buscar';
+import { Cursos } from './pages/Cursos';
+import { Horario } from './pages/Horario';
 
 const Menu = createDrawerNavigator()
 
@@ -21,6 +23,9 @@ export default function App() {
         <Menu.Screen name='Perfil' component={Perfil}/>
         <Menu.Screen name='Register' component={Register}/>
         <Menu.Screen name='PanelAdmin' component={PanelAdmin}/>
+        <Menu.Screen name='Buscar' component={Buscar}/>
+        <Menu.Screen name='Cursos' component={Cursos}/>
+        <Menu.Screen name='Horario' component={Horario}/>
         <Menu.Screen name='Reportar un problema' component={Acercade}/>
       </Menu.Navigator>
     </NavigationContainer>
