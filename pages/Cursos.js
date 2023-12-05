@@ -5,10 +5,10 @@ export function Cursos() {
   const [lista, setLista] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState(null);
-  const image2 = { uri: 'https://img.freepik.com/vector-gratis/fondo-brillo-iridiscente-degradado_23-2149928479.jpg' };
+  const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
 
   const generarLista = () => {
-    const nuevaLista = ['101','102','103','201','202','203','301', '302', '303','304', '401', '402', '403', '404', '501', '502', '503', '504', '601', '602', '603',];
+    const nuevaLista = ['601','602','603','604','701','702','703', '704', '801','802', '803', '804', '901', '902', '903', '904', '1001', '1002', '1003', '1004', '1101','1102','1103','1104'];
     setLista(nuevaLista);
     setModalVisible(true);
   };

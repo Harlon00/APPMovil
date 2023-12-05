@@ -3,6 +3,7 @@ import { ScrollView, SafeAreaView, ImageBackground, View, TextInput, Button, Sty
 import { SelectList } from 'react-native-dropdown-select-list';
 import React, { useState } from 'react';
 
+
 export function Register() {
   const [primernombre, setPrimernombre] = useState('');
   const [segundonombre, setSegundonombre] = useState('');
@@ -18,7 +19,7 @@ export function Register() {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const [selected, setSelected] = React.useState("");
-  const image2 = { uri: 'https://img.freepik.com/vector-gratis/fondo-brillo-iridiscente-degradado_23-2149928479.jpg' };
+  const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
 
 
 
@@ -70,6 +71,10 @@ export function Register() {
 
 
   //VALIDACION DE QUE TODOS LOS CAMPOS ESTEN LLENOS// 
+
+  state={
+    fecha: new Date()
+  }
 
   const handleRegister = () => {
     if (!primernombre || !segundonombre || !primerapellido || !segundoapellido || !documento || !numeroCelular || !correoElectronico) {
@@ -198,6 +203,8 @@ export function Register() {
     }
   };
 
+
+
   const validarNumeroCelular = () => {
     // Expresión regular para validar el número de celular
     const regex = /^[0-9]{10}$/;
@@ -298,6 +305,9 @@ export function Register() {
               maxHeight={130}
 
             />
+          
+          
+          
 
             <SelectList
               setSelected={setSelected}
@@ -491,3 +501,4 @@ const styles = StyleSheet.create({
     top:-10
   },
 });
+

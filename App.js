@@ -5,7 +5,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { Login } from './pages/Login'
 import { Cuenta, Perfil } from './pages/Perfil'
-import { Acercade } from './pages/Acercade'
 import { Register } from './pages/Register'
 import { PanelAdmin } from './pages/PanelAdmin';
 import { Buscar } from './pages/Buscar';
@@ -26,7 +25,7 @@ export default function App() {
         <Menu.Screen name='Buscar' component={Buscar}/>
         <Menu.Screen name='Cursos' component={Cursos}/>
         <Menu.Screen name='Horario' component={Horario}/>
-        <Menu.Screen name='Reportar un problema' component={Acercade}/>
+        
       </Menu.Navigator>
     </NavigationContainer>
 

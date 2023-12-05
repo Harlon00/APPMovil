@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Table, TableWrapper, Row, Rows } from 'react-native-table-component';
 
 export function PanelAdmin() {
-  const image2 = { uri: 'https://img.freepik.com/vector-gratis/fondo-brillo-iridiscente-degradado_23-2149928479.jpg' };
+  const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
   const tableHead = ['ID', 'NOMBRE', 'EDITAR','ELIMINAR','VER'];
   const tableData = [
     ['#1033812342', 'Anamaria Gonzales Rojas', <TouchableOpacity onPress={() => handleButtonPress(1)}><Text style={styles.button}>✏️</Text></TouchableOpacity>,<TouchableOpacity onPress={() => handleButtonPress(1)}><Text style={styles.button}>☠️</Text></TouchableOpacity>,<TouchableOpacity onPress={() => handleButtonPress(1)}><Text style={styles.button}>👁️</Text></TouchableOpacity> ],
