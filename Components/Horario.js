@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { ImageBackground, Image,  View, Text, TouchableOpacity, FlatList, StyleSheet, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Modal } from 'react-native';
 
-export function Cursos() {
+const Horariobonito = () => {
   const [lista, setLista] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState(null);
-  const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
 
   const generarLista = () => {
-    const nuevaLista = ['601','602','603','604','701','702','703', '704', '801','802', '803', '804', '901', '902', '903', '904', '1001', '1002', '1003', '1004', '1101','1102','1103','1104'];
+    const nuevaLista = ['1 Periodo', '2 Periodo', '3 Periodo'];  
     setLista(nuevaLista);
     setModalVisible(true);
   };
@@ -19,12 +18,10 @@ export function Cursos() {
   };
 
   return (
-    <ImageBackground source={image2} resizeMode="cover" style={styles.image2}>
     <View style={styles.container}>
-    <Image style={styles.imagelogo} source={require('../assets/escudo.png')} />
       <TouchableOpacity onPress={generarLista} style={styles.button}>
         <Text style={styles.buttonText}>
-          {opcionSeleccionada ? `Seleccionado: ${opcionSeleccionada}` : 'Cursos'}
+          {opcionSeleccionada ? `Seleccionado: ${opcionSeleccionada}` : 'Periodo '}
         </Text>
       </TouchableOpacity>
 
@@ -52,7 +49,6 @@ export function Cursos() {
         </View>
       </Modal>
     </View>
-    </ImageBackground>
   );
 };
 
@@ -67,14 +63,11 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
-    width: '70%',
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
-    textAlign: 'center',
-    
-    
+    height: '60%',
   },
   modalContainer: {
     flex: 1,
@@ -100,21 +93,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-
-  image2: {
-    flex: 1,
-    justifyContent: 'center',
-
-  },
-
-  imagelogo: {
-    height:50,
-    width:50,
-    alignItems: 'center',
-    top: '-42%',
-    left:'45%',
-
-
-  },
-
 });
+
+export default Horariobonito;
