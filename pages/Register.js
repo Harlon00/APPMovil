@@ -16,7 +16,6 @@ export function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const [selected, setSelected] = React.useState("");
   const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
@@ -68,20 +67,38 @@ export function Register() {
 
   ]
 
-
-
-  //VALIDACION DE QUE TODOS LOS CAMPOS ESTEN LLENOS// 
-
   state={
     fecha: new Date()
   }
 
-  const handleRegister = () => {
-    if (!primernombre || !segundonombre || !primerapellido || !segundoapellido || !documento || !numeroCelular || !correoElectronico) {
-      Alert.alert('Error', 'Por favor, completa todos los campos');
-      return;
+  const handleRegister = async () => {
+    try {
+      const response = await fetch('URL_DE_TU_API', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          primernombre,
+          segundonombre,
+          primerapellido,
+          segundoapellido,
+          documento,
+          numeroCelular,
+          correoElectronico,
+          password,
+        }),
+      });
+
+      if (response.ok) {
+        Alert.alert('Éxito', 'Registro exitoso');
+      } else {
+        Alert.alert('Error', 'Error al registrar. Inténtalo de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud:', error);
+      Alert.alert('Error', 'Error al registrar. Inténtalo de nuevo.');
     }
-    Alert.alert('Éxito', 'Registro exitoso');
   };
 
   // VALIDACION DE FORMULARIO//
