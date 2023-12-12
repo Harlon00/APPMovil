@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, View, TextInput, FlatList, Text, Button, StyleSheet } from 'react-native';
+import axios from 'axios';
 
 export function Buscar() {
   const [query, setQuery] = useState('');
@@ -10,32 +11,36 @@ export function Buscar() {
   const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
 
 
+
   
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/v1/users/');
-        const result = await response.json();
-        setData(result);
+        const response = await axios.get('http://127.0.0.1:8000/api/v1/users/');
+        setData(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error al obtener datos:', error);
       }
     };
-
+  
     fetchData();
   }, []);
 
-  const handleSearch = () => {
-    const filtered = data.filter(
-      (item) =>
-        item.id.toString().includes(query) ||
-        item.title.toLowerCase().includes(query.toLowerCase())
-      // Ajusta esto según las propiedades de tu API
-    );
-    setFilteredData(filtered);
-    setSearchResultsVisible(true);
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/v1/users/');
+      const result = response.data;
+
+      const filtered = result.filter(
+        (item) =>
+          item.documento.toString().includes(query) ||
+          item.nombre1.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredData(filtered);
+      setSearchResultsVisible(true);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   const clearSearchResults = () => {
@@ -45,32 +50,31 @@ export function Buscar() {
 
   return (
     <ImageBackground source={image2} resizeMode="cover" style={styles.image2}>
-    <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Buscar..."
-          onChangeText={(text) => setQuery(text)}
-          value={query}
-        />
-        <Button title="Buscar" onPress={handleSearch} />
-      </View>
-      {searchResultsVisible && (
-        <View style={styles.resultsContainer}>
-          <FlatList
-            data={filteredData}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.resultItem}>
-                <Text style={styles.resultText}>{`ID: ${item.id}, Título: ${item.title}`}</Text>
-                {/* Ajusta esto según las propiedades de tu API */}
-              </View>
-            )}
+      <View style={styles.container}>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Buscar..."
+            onChangeText={(text) => setQuery(text)}
+            value={query}
           />
-          <Button title="Limpiar resultados" onPress={clearSearchResults} />
+          <Button title="Buscar" onPress={handleSearch} />
         </View>
-      )}
-    </View>
+        {searchResultsVisible && (
+          <View style={styles.resultsContainer}>
+            <FlatList
+              data={filteredData}
+              keyExtractor={(item) => item.documento.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.resultItem}>
+                  <Text style={styles.resultText}>{`documento: ${item.documento}, Nombre: ${item.nombre1+' '+item.apellido1+' '+(item.apellido2? item.apellido2:'')}, email:${item.email}, Rol:${item.rol}`}</Text>
+                </View>
+              )}
+            />
+            <Button title="Limpiar resultados" onPress={clearSearchResults} />
+          </View>
+        )}
+      </View>
     </ImageBackground>
   );
 }
@@ -78,7 +82,7 @@ export function Buscar() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   
+
     padding: 10,
   },
   searchContainer: {
