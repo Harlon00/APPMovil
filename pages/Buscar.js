@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, FlatList, Text, Button, StyleSheet } from 'react-native';
+import { ImageBackground, View, TextInput, FlatList, Text, Button, StyleSheet } from 'react-native';
 
 export function Buscar() {
   const [query, setQuery] = useState('');
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchResultsVisible, setSearchResultsVisible] = useState(false);
+
+  const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
+
+
+  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +44,7 @@ export function Buscar() {
   };
 
   return (
+    <ImageBackground source={image2} resizeMode="cover" style={styles.image2}>
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <TextInput
@@ -64,13 +71,14 @@ export function Buscar() {
         </View>
       )}
     </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#b3c9c1',
+   
     padding: 10,
   },
   searchContainer: {
@@ -87,6 +95,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: 'white',
   },
+
+  image2: {
+    flex: 1,
+    justifyContent: 'center',
+
+  },
+
   resultsContainer: {
     backgroundColor: 'white',
     padding: 10,

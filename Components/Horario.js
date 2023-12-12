@@ -63,11 +63,14 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderRadius: 5,
+    
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
-    height: '60%',
+    height: '30%',
+
+   
   },
   modalContainer: {
     flex: 1,

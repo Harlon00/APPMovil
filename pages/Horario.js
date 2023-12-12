@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ImageBackground , StyleSheet, Text, View } from 'react-native';
 import BuscarBiton from '../Components/Buscar';
 import ListaGenerada from '../Components/Cursos'
 import Horariobonito from '../Components/Horario';
 
+const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
+
 
 export function Horario() {
   return (
+
+    <ImageBackground source={image2} resizeMode="cover" style={styles.image2}>
 
     <View style={styles.container}>
         <StatusBar style="auto" />
@@ -17,6 +21,8 @@ export function Horario() {
         </View>
     </View>
 
+    </ImageBackground>
+
         
   );
 }
@@ -24,7 +30,7 @@ export function Horario() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#b3c9c1',
+    
     alignItems: 'center',
     
   },
@@ -33,11 +39,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
+  
+  image2: {
+    flex: 1,
+    justifyContent: 'center',
+
+  },
+
   componentesv: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: '7%', 
-    backgroundColor: 'white',
+   
     borderRadius: 8,
     padding: 10,
   },
