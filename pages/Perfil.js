@@ -3,6 +3,8 @@ import {   ImageBackground, View, TextInput, Button, StyleSheet, Alert,Image, Te
 import React, { useState } from 'react'; 
 
 export function Perfil() {
+  const [userData, setUserData] = useState(null);
+
  
 
   const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };

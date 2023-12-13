@@ -1,17 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import {  ImageBackground, View, TextInput, Button, StyleSheet, Alert,Image, Text} from 'react-native';
 import React, { useState } from 'react'; 
+import axios from 'axios';
 
-export function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+
+
+
+export function Login( )   {
+  const [documento, setDocumento] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
+ 
 
   const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
-
+  
   const validarDocumento = () => {
-    const longitudDocumento = username.length;
+    const longitudDocumento = documento.length;
 
-    if (longitudDocumento >= 6 && longitudDocumento <= 12 && !isNaN(username)) {
+    if (longitudDocumento >= 6 && longitudDocumento <= 12 && !isNaN(documento)) {
       // Documento válido, aquí puedes realizar acciones adicionales si es necesario
   
     } else {
@@ -20,10 +25,10 @@ export function Login() {
     }
   };
 
-  const validarPassword = () => {
+  const validarContrasenia = () => {
     // La expresión regular asegura que haya al menos 2 números en la contraseña
     const regex = /\d.*\d/;
-    const contieneDosNumeros = regex.test(password);
+    const contieneDosNumeros = regex.test(contrasenia);
 
     if (contieneDosNumeros) {
       // Contraseña válida, aquí puedes realizar acciones adicionales si es necesario
@@ -34,17 +39,36 @@ export function Login() {
     }
   };
 
-
-
-
- const handleLogin = () => {
-    if (!username || !password ) {
-      Alert.alert('Error', 'Por favor, completa todos los campos');
-      return;
+  const handleLogin = async () => {
+    try {
+      // Configura la URL de tu API
+      const apiUrl = 'http://127.0.0.1:8000/login/';
+  
+      // Realiza la llamada a la API con Axios
+      const response = await axios.post(apiUrl, {
+        documento: documento,
+        contrasenia: contrasenia,
+      });
+  
+      // Aquí puedes manejar la respuesta de la API según tus necesidades
+      console.log('Respuesta de la API:', response.data);
+      // Por ejemplo, puedes mostrar un mensaje de éxito
+      Alert.alert('Éxito', 'Inicio de sesión exitoso');
+  
+    } catch (error) {
+      // Maneja los errores de la llamada a la API
+      console.error('Error al iniciar sesión:', error);
+  
+      // Muestra un mensaje de error
+      Alert.alert('Error', 'Error al iniciar sesión. Por favor, intenta nuevamente.');
     }
-    Alert.alert('Éxito', 'Login exitoso');
+
   };
 
+
+
+
+  
   return (
 
     <ImageBackground source={image2} resizeMode="cover" style={styles.image2}>
@@ -61,8 +85,8 @@ export function Login() {
       <TextInput
         style={styles.input}
         placeholder="Número de documento"
-        value={username}
-        onChangeText={Text => setUsername(Text)}
+        value={documento}
+        onChangeText={Text => setDocumento(Text)}
         keyboardType='numeric'
         onBlur={validarDocumento}
         placeholderTextColor={'black'}
@@ -72,9 +96,9 @@ export function Login() {
         style={styles.input}
         placeholder="Contraseña"
         secureTextEntry
-        value={password}
-        onChangeText={text => setPassword(text)}
-        onBlur={validarPassword}
+        value={contrasenia}
+        onChangeText={text => setContrasenia(text)}
+        onBlur={validarContrasenia}
         placeholderTextColor={'black'}
         
         
