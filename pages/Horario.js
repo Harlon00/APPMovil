@@ -16,6 +16,7 @@ export function Horario() {
       try {
         const response = await axios.get('http://127.0.0.1:8000/api/v1/grados/');
         setCursos(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error('Error al obtener cursos:', error);
       }
@@ -93,16 +94,14 @@ export function Horario() {
 
         {resultadosBusqueda.length > 0 && (
           <View style={styles.resultContainer}>
-            <Text style={styles.title}>Resultados de la búsqueda</Text>
-            {resultadosBusqueda.map((resultado, index) => (
-              <Image
-               key={index}
-                style={{width:'100%',height:'50%'}}
-              source={{
-                uri:resultado.urlhorario
-              }}/>
-              
-            ))}
+            
+              <Text style={styles.title}>Resultados de la búsqueda</Text>
+              <ImageBackground
+              source={{ uri: resultadosBusqueda[0].urlhorario }}
+              style={{ flex: 1 }}
+              resizeMode="cover"
+            >
+            </ImageBackground>
           </View>
         )}
 
@@ -119,9 +118,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 100, 
+    marginBottom: 100, 
   },
   title: {
-    fontSize: 30,
+    fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -141,9 +142,14 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   resultContainer: {
+    flex: 1,
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 8,
-    marginTop: 30,
+    marginTop: 100,
+    marginBottom: 100,
+     overflow: 'hidden', 
+    width: '90%',      
+    height: '90%',  
   },
 });

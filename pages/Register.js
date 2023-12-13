@@ -2,95 +2,60 @@ import { StatusBar } from 'expo-status-bar';
 import { ScrollView, SafeAreaView, ImageBackground, View, TextInput, Button, StyleSheet, Alert, Image, Text} from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import React, { useState } from 'react';
-
+import axios from 'axios';
 
 export function Register() {
-  const [primernombre, setPrimernombre] = useState('');
-  const [segundonombre, setSegundonombre] = useState('');
-  const [primerapellido, setPrimerapellido] = useState('');
-  const [segundoapellido, setSegundoapellido] = useState('');
-  const [documento, setDocumento] = useState('');
-  const [numeroCelular, setNumeroCelular] = useState('');
-  const [correoElectronico, setCorreoElectronico] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [nombre1, setnombre1] = useState('');
+  const [nombre2, setnombre2] = useState('');
+  const [apellido1, setapellido1] = useState('');
+  const [apellido2, setapellido2] = useState('');
+  const [documento, setdocumento] = useState('');
+  const [telefono_celular, settelefono_celular] = useState('');
+  const [email, setemail] = useState('');
+  const [contrasenia, setcontrasenia] = useState('');
+  const [confirmarContrasenia, setconfirmarContrasenia] = useState('');
   const [error, setError] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-
+  const [telefono_fijo, settelefono_fijo] = useState('');
   const [selected, setSelected] = React.useState("");
+  
   const image2 = { uri: 'https://image.slidesdocs.com/responsive-images/background/business-simple-gradient-blue-technology-light-blue-powerpoint-background_f6faa583ee__960_540.jpg' };
 
-
-
-
-  //DATOS DE LOS SELECT DEL FORMULARIO//
-  const data = [
+  const rol_idrol = [
     { key: '1', value: 'Estudiante' },
     { key: '2', value: 'Profesor' },
     { key: '3', value: 'Coordinador (Admin)' },
+  ];
 
+  const tipo_idtipodocumento = [
+    { key: '1', value: 'Tarjeta de identidad' },
+    { key: '2', value: 'Cédula de ciudadanía' },
+    { key: '3', value: 'PEP' },
+    { key: '4', value: 'Pasaporte' },
+    { key: '5', value: 'Cedula de extranjeria' },
   ]
-
-
-  const data2 = [
-    { key: 'T1', value: 'Targeta-Identidad' },
-    { key: 'T2', value: 'Cedula' },
-    { key: 'T3', value: 'Cedula de extranjeria' },
-
-  ]
-
-  const data3 = [
-    { key: '601', value: '601' },
-    { key: '602', value: '602' },
-    { key: '603', value: '603' },
-    { key: '604', value: '604' },
-    { key: '701', value: '701' },
-    { key: '702', value: '702' },
-    { key: '703', value: '703' },
-    { key: '704', value: '704' },
-    { key: '801', value: '801' },
-    { key: '802', value: '802' },
-    { key: '803', value: '803' },
-    { key: '804', value: '804' },
-    { key: '901', value: '901' },
-    { key: '902', value: '902' },
-    { key: '903', value: '903' },
-    { key: '904', value: '904' },
-    { key: '1001', value: '1001' },
-    { key: '1002', value: '1002' },
-    { key: '1003', value: '1003' },
-    { key: '1004', value: '1004' },
-    { key: '1101', value: '1101' },
-    { key: '1102', value: '1102' },
-    { key: '1103', value: '1103' },
-    { key: '1104', value: '1104' },
-
-  ]
-
-  state={
-    fecha: new Date()
-  }
 
   const handleRegister = async () => {
     try {
-      const response = await fetch('URL_DE_TU_API', {
-        method: 'POST',
+      const response = await axios.post('http://127.0.0.1:8000/api/v1/users/', {
+        nombre1,
+        nombre2,
+        apellido1,
+        apellido2,
+        tipo_idtipodocumento,
+        documento,
+        telefono_fijo,
+        telefono_celular,
+        email,
+        contrasenia,
+        confirmarContrasenia,
+        rol_idrol,
+      }, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          primernombre,
-          segundonombre,
-          primerapellido,
-          segundoapellido,
-          documento,
-          numeroCelular,
-          correoElectronico,
-          password,
-        }),
       });
-
-      if (response.ok) {
+  
+      if (response.status === 200) {
         Alert.alert('Éxito', 'Registro exitoso');
       } else {
         Alert.alert('Error', 'Error al registrar. Inténtalo de nuevo.');
@@ -113,9 +78,9 @@ export function Register() {
 
   const handleValidation = () => {
     // Lógica de validación de contraseñas
-    if (password.length < 8) {
+    if (contrasenia.length < 8) {
       Alert.alert('La contraseña debe tener al menos 8 caracteres.');
-    } else if (password !== confirmPassword) {
+    } else if (contrasenia !== confirmarContrasenia) {
       Alert.alert('Las contraseñas no coinciden.');
     } else {
       setError(''); // Si no hay errores, se borra el mensaje de error
@@ -127,7 +92,7 @@ export function Register() {
     // Validar el número de teléfono con una expresión regular
     const phoneRegex = /^[0-9]{7}$/; // Esta expresión regular asume un número de teléfono de 10 dígitos
 
-    if (phoneRegex.test(phoneNumber)) {
+    if (phoneRegex.test(telefono_fijo)) {
       // Número de teléfono válido, puedes proceder con la lógica de registro
 
     } else {
@@ -138,15 +103,15 @@ export function Register() {
 
 
 
-  const validaprimernombre = () => {
+  const validanombre1 = () => {
     // Verifica si el nombre tiene al menos 3 caracteres
-    if (primernombre.length < 3) {
+    if (nombre1.length < 3) {
       Alert.alert('Error', 'El Nombre debe tener al menos 3 caracteres');
       return;
     }
 
     // Verifica si el nombre contiene solo letras (puedes ajustar esto según tus necesidades)
-    if (!/^[a-zA-Z]+$/.test(primernombre)) {
+    if (!/^[a-zA-Z]+$/.test(nombre1)) {
       Alert.alert('Error', 'El Nombre solo puede contener letras');
       return;
     }
@@ -155,15 +120,15 @@ export function Register() {
 
   };
 
-  const validasegundonombre = () => {
+  const validanombre2 = () => {
     // Verifica si el nombre tiene al menos 3 caracteres
-    if (segundonombre.length < 3) {
+    if (nombre2.length < 3) {
       Alert.alert('Error', 'El Nombre debe tener al menos 3 caracteres');
       return;
     }
 
     // Verifica si el nombre contiene solo letras (puedes ajustar esto según tus necesidades)
-    if (!/^[a-zA-Z]+$/.test(segundonombre)) {
+    if (!/^[a-zA-Z]+$/.test(nombre2)) {
       Alert.alert('Error', 'El Nombre solo puede contener letras');
       return;
     }
@@ -172,15 +137,15 @@ export function Register() {
 
   };
 
-  const validaprimerapellido = () => {
+  const validaapellido1 = () => {
     // Verifica si el nombre tiene al menos 3 caracteres
-    if (primerapellido.length < 3) {
+    if (apellido1.length < 3) {
       Alert.alert('Error', 'El Nombre debe tener al menos 3 caracteres');
       return;
     }
 
     // Verifica si el nombre contiene solo letras (puedes ajustar esto según tus necesidades)
-    if (!/^[a-zA-Z]+$/.test(primerapellido)) {
+    if (!/^[a-zA-Z]+$/.test(apellido1)) {
       Alert.alert('Error', 'El Nombre solo puede contener letras');
       return;
     }
@@ -190,15 +155,15 @@ export function Register() {
 
   };
 
-  const validasegundopellido = () => {
+  const validaapellido2 = () => {
     // Verifica si el nombre tiene al menos 3 caracteres
-    if (segundoapellido.length < 3) {
+    if (apellido2.length < 3) {
       Alert.alert('Error', 'El Nombre debe tener al menos 3 caracteres');
       return;
     }
 
     // Verifica si el nombre contiene solo letras (puedes ajustar esto según tus necesidades)
-    if (!/^[a-zA-Z]+$/.test(segundoapellido)) {
+    if (!/^[a-zA-Z]+$/.test(apellido2)) {
       Alert.alert('Error', 'El Nombre solo puede contener letras');
       return;
     }
@@ -208,10 +173,10 @@ export function Register() {
   };
 
 
-  const validarDocumento = () => {
-    const longitudDocumento = documento.length;
+  const validardocumento = () => {
+    const longituddocumento = documento.length;
 
-    if (longitudDocumento >= 6 && longitudDocumento <= 12 && !isNaN(documento)) {
+    if (longituddocumento >= 6 && longituddocumento <= 12 && !isNaN(documento)) {
       // Documento válido, aquí puedes realizar acciones adicionales si es necesario
 
     } else {
@@ -222,11 +187,11 @@ export function Register() {
 
 
 
-  const validarNumeroCelular = () => {
+  const validartelefono_celular = () => {
     // Expresión regular para validar el número de celular
     const regex = /^[0-9]{10}$/;
 
-    if (!regex.test(numeroCelular)) {
+    if (!regex.test(telefono_celular)) {
       Alert.alert('Error', 'Ingrese un número de celular válido.');
       return;
     }
@@ -235,11 +200,11 @@ export function Register() {
 
   };
 
-  const validarCorreoElectronico = () => {
+  const validaremail = () => {
     // Expresión regular para validar un correo electrónico
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!regex.test(correoElectronico)) {
+    if (!regex.test(email)) {
       Alert.alert('Error', 'Ingrese un correo electrónico válido.');
       return;
     }
@@ -273,137 +238,125 @@ export function Register() {
             <TextInput
               style={styles.input}
               placeholder="Primer Nombre"
-              value={primernombre}
-              onChangeText={text => setPrimernombre(text)}
-              onBlur={validaprimernombre}
+              value={nombre1}
+              onChangeText={text => setnombre1(text)}
+              onBlur={validanombre1}
               placeholderTextColor={'black'}
             />
 
             <TextInput
               style={styles.input}
               placeholder="Segundo Nombre"
-              value={segundonombre}
-              onChangeText={text => setSegundonombre(text)}
+              value={nombre2}
+              onChangeText={text => setnombre2(text)}
               placeholderTextColor={'black'}
-              onBlur={validasegundonombre}
+              onBlur={validanombre2}
             />
 
             <TextInput
               style={styles.input}
               placeholder="Primer Apellido"
-              value={primerapellido}
-              onChangeText={text => setPrimerapellido(text)}
+              value={apellido1}
+              onChangeText={text => setapellido1(text)}
               placeholderTextColor={'black'}
-              onBlur={validaprimerapellido}
+              onBlur={validaapellido1}
             />
 
 
             <TextInput
               style={styles.input2}
               placeholder="Segundo Apellido"
-              value={segundoapellido}
-              onChangeText={text => setSegundoapellido(text)}
+              value={apellido2}
+              onChangeText={text => setapellido2(text)}
               placeholderTextColor={'black'}
-              onBlur={validasegundopellido}
+              onBlur={validaapellido2}
 
             />
 
+            {rol_idrol && Array.isArray(rol_idrol) && (
+              <SelectList
+                setSelected={value => {
+                  console.log("Selected value:", value);
+                  setSelected(value);
+                }}
+                options={rol_idrol}  
+                save="value"
+                placeholder='Seleccione su Rol'
+                boxStyles={{
+                  borderColor: 'white', borderWidth: 2, height: 50, width: 344, textAlign: 'center', justifyContent: 'center',
+                  alignItems: 'center', margin: 20
+                }}
+                inputStyles={{ fontSize: 14, color: 'black' }}
+                dropdownStyles={{ alignItems: 'center' }}
+                maxHeight={130}
+              />
+            )}
+
+            {console.log("Selected value:", selected)}
             <SelectList
               setSelected={setSelected}
-              data={data}
+              options={tipo_idtipodocumento} 
               save="value"
-              placeholder='Selecione su Rol'
+              placeholder='Seleccione Tipo de identidad'
               boxStyles={{
-                borderColor: 'white', borderWidth: 2, height: 50, width: 344, textAlign: 'center', justifyContent: 'center',
-                alignItems: 'center', margin: 20
+                borderColor: 'white',
+                borderWidth: 2,
+                height: 50,
+                width: 344,
+                textAlign: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 20,
               }}
               inputStyles={{ fontSize: 14, color: 'black' }}
               dropdownStyles={{ alignItems: 'center' }}
               maxHeight={130}
-
             />
-          
-          
-          
-
-            <SelectList
-              setSelected={setSelected}
-              data={data2}
-              save="value"
-              placeholder='Selecione Tipo de identidad'
-              boxStyles={{
-                borderColor: 'white', borderWidth: 2, height: 50, width: 344, textAlign: 'center', justifyContent: 'center',
-                alignItems: 'center', marginBottom: 20
-              }}
-              inputStyles={{ fontSize: 14, color: 'black' }}
-              dropdownStyles={{ alignItems: 'center' }}
-              maxHeight={130}
-
-            />
-
-
-
             <TextInput
               style={styles.input}
               placeholder="Número de documento"
-              value={documento}
               keyboardType="numeric"
-              onChangeText={text => setDocumento(text)}
+              value={documento}
+              onChangeText={text => setdocumento(text)}
               placeholderTextColor={'black'}
-              onBlur={validarDocumento}
+              onBlur={validardocumento}
             />
-
             <TextInput
               style={styles.input}
               placeholder="Número Celular"
               keyboardType="phone-pad"
-              value={numeroCelular}
-              onChangeText={text => setNumeroCelular(text)}
+              value={telefono_celular}
+              onChangeText={text => settelefono_celular(text)}
               placeholderTextColor={'black'}
-              onBlur={validarNumeroCelular}
+              onBlur={validartelefono_celular}
             />
 
             <TextInput
               style={styles.input}
               placeholder="Número Telefono"
               keyboardType="phone-pad"
-              value={phoneNumber}
-              onChangeText={text => setPhoneNumber(text)}
+              value={telefono_fijo}
+              onChangeText={text => settelefono_fijo(text)}
               placeholderTextColor={'black'}
               onBlur={handleTelefono}
             />
-
 
             <TextInput
               style={styles.input2}
               placeholder="Correo Electrónico"
               keyboardType="email-address"
-              value={correoElectronico}
-              onChangeText={text => setCorreoElectronico(text)}
+              value={email}
+              onChangeText={text =>setemail(text)}
               placeholderTextColor={'black'}
-              onBlur={validarCorreoElectronico}
+              onBlur={validaremail}
             />
 
-            <SelectList
-              setSelected={setSelected}
-              data={data3}
-              save="value"
-              placeholder='Selecione su curso'
-              boxStyles={{
-                borderColor: 'white', borderWidth: 2, height: 50, width: 344, textAlign: 'center', justifyContent: 'center',
-                alignItems: 'center', margin: 20
-              }}
-              inputStyles={{ fontSize: 14, color: 'black' }}
-              dropdownStyles={{ alignItems: 'center' }}
-              maxHeight={130}
-
-            />
 
             <TextInput
               style={styles.input}
               placeholder="Contraseña"
-              value={password}
-              onChangeText={text => setPassword(text)}
+              value={contrasenia}
+              onChangeText={text => setcontrasenia(text)}
               placeholderTextColor={'black'}
               onBlur={handleValidation}
               secureTextEntry
@@ -412,18 +365,13 @@ export function Register() {
             <TextInput
               style={styles.input}
               placeholder="Verificar Contraseña"
-              value={confirmPassword}
-              onChangeText={text => setConfirmPassword(text)}
+              value={confirmarContrasenia}
+              onChangeText={text => setconfirmarContrasenia(text)}
               placeholderTextColor={'black'}
               onBlur={handleValidation}
               secureTextEntry
 
             />
-
-
-            
-
-
             <Button title="Registrar" onPress={handleRegister} />
 
           </View>
@@ -483,7 +431,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 10,
     textAlign: 'center',
-
+    marginTop: 10,
 
   },
 
@@ -494,7 +442,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     textAlign: 'center',
-
+    marginTop: 10,
   },
 
   styleselect: {
@@ -518,4 +466,3 @@ const styles = StyleSheet.create({
     top:-10
   },
 });
-
